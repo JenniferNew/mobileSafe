@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -12,12 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.movitech.mobilesafe.R;
 import com.movitech.mobilesafe.util.StreamUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -185,7 +191,7 @@ public class SplashActivity extends AppCompatActivity {
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                download();
             }
         });
 
@@ -196,6 +202,30 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private void download() {
+        String target = Environment.getExternalStorageDirectory() + "/update.apk";
+
+        HttpUtils http = new HttpUtils();
+        http.download(mDownloadUrl, target, new RequestCallBack<File>() {
+
+            @Override
+            public void onLoading(long total, long current, boolean isUploading) {
+                super.onLoading(total, current, isUploading);
+                System.out.println("total: " + total + "current:" + current);
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<File> responseInfo) {
+                Toast.makeText(SplashActivity.this, "下载成功", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                Toast.makeText(SplashActivity.this, "下载失败", Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     private void enterHome() {
