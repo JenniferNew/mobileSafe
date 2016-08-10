@@ -1,5 +1,6 @@
 package com.movitech.mobilesafe.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,8 +9,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,10 @@ public class SplashActivity extends AppCompatActivity {
     private static final int CODE_NET_ERROR = 2;
     private static final int CODE_JSON_ERROR = 3;
     private static final int CODE_ENTER_HOME = 4;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
     private TextView tv_version;
+    private TextView tv_progress;
+
     private String mVersionName;//版本名称
     private int mVersionCode;//版本号
     private String mDesc;//版本描述
@@ -77,10 +85,28 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         tv_version = (TextView) findViewById(R.id.tv_version);
+        tv_progress = (TextView) findViewById(R.id.tv_progress);
 
         String versionName = getVersionName();
         tv_version.setText("版本号:" + versionName);
         checkVersion();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                download();
+            } else {
+                // Permission Denied
+            }
+        }
     }
 
     private String getVersionName() {
@@ -191,7 +217,15 @@ public class SplashActivity extends AppCompatActivity {
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                download();
+
+                if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                }else {
+                    download();
+                }
             }
         });
 
@@ -205,27 +239,36 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void download() {
-        String target = Environment.getExternalStorageDirectory() + "/update.apk";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            tv_progress.setVisibility(View.VISIBLE);
 
-        HttpUtils http = new HttpUtils();
-        http.download(mDownloadUrl, target, new RequestCallBack<File>() {
+            String target = Environment.getExternalStorageDirectory() + "/update.apk";
 
-            @Override
-            public void onLoading(long total, long current, boolean isUploading) {
-                super.onLoading(total, current, isUploading);
-                System.out.println("total: " + total + "current:" + current);
-            }
+            HttpUtils http = new HttpUtils();
 
-            @Override
-            public void onSuccess(ResponseInfo<File> responseInfo) {
-                Toast.makeText(SplashActivity.this, "下载成功", Toast.LENGTH_SHORT);
-            }
+            http.download(mDownloadUrl, target, new RequestCallBack<File>() {
 
-            @Override
-            public void onFailure(HttpException e, String s) {
-                Toast.makeText(SplashActivity.this, "下载失败", Toast.LENGTH_SHORT);
-            }
-        });
+                @Override
+                public void onLoading(long total, long current, boolean isUploading) {
+                    super.onLoading(total, current, isUploading);
+                    tv_progress.setText("下载进度" + current * 100.0/total + "%");
+                    System.out.println("total: " + total + "current:" + current);
+                }
+
+                @Override
+                public void onSuccess(ResponseInfo<File> responseInfo) {
+                    Toast.makeText(SplashActivity.this, "下载成功", Toast.LENGTH_LONG);
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    System.out.println("e:" + e.getMessage());
+                    Toast.makeText(SplashActivity.this, "下载失败", Toast.LENGTH_LONG);
+                }
+            });
+        }else {
+            Toast.makeText(SplashActivity.this, "没有SD卡", Toast.LENGTH_LONG);
+        }
     }
 
     private void enterHome() {
