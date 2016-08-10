@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -258,6 +259,10 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(ResponseInfo<File> responseInfo) {
                     Toast.makeText(SplashActivity.this, "下载成功", Toast.LENGTH_LONG);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setDataAndType(Uri.fromFile(responseInfo.result), "application/vnd.android.package-archive");
+                    startActivity(intent);
                 }
 
                 @Override
