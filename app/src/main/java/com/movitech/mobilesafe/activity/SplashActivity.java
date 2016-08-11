@@ -3,6 +3,7 @@ package com.movitech.mobilesafe.activity;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class SplashActivity extends AppCompatActivity {
 
         }
     };
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,13 @@ public class SplashActivity extends AppCompatActivity {
 
         String versionName = getVersionName();
         tv_version.setText("版本号:" + versionName);
-        checkVersion();
+
+        mSharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        if (mSharedPreferences.getBoolean("auto_update", true)) {
+            checkVersion();
+        }else {
+            mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME, 2000);
+        }
     }
 
     @Override

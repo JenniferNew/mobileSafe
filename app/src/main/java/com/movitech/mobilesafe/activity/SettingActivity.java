@@ -41,11 +41,11 @@ public class SettingActivity extends AppCompatActivity {
                     sivUpdate.setChecked(false);
                     sivUpdate.setDesc("自动更新已关闭");
 
-                    mSharedPreferences.edit().putBoolean("auto_update", false);
+                    mSharedPreferences.edit().putBoolean("auto_update", false).commit();
                 }else {
                     sivUpdate.setChecked(true);
                     sivUpdate.setDesc("自动更新已开启");
-                    mSharedPreferences.edit().putBoolean("auto_update", true);
+                    mSharedPreferences.edit().putBoolean("auto_update", true).commit();
                 }
             }
         });
