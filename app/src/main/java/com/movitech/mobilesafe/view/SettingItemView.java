@@ -14,9 +14,13 @@ import com.movitech.mobilesafe.R;
  */
 public class SettingItemView extends RelativeLayout{
 
+    private static final String NAMESPACE = "http://schemas.android.com/apk/res-auto";
     private TextView tv_titile;
     private TextView tv_description;
     private CheckBox cb_status;
+    private String mtitle;
+    private String mdesc_on;
+    private String mdesc_off;
 
     public SettingItemView(Context context) {
         super(context);
@@ -25,7 +29,16 @@ public class SettingItemView extends RelativeLayout{
 
     public SettingItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        /*
+        * 根据属性名拿属性值
+        * */
+        mtitle = attrs.getAttributeValue(NAMESPACE, "title_value");
+        mdesc_on = attrs.getAttributeValue(NAMESPACE, "desc_on");
+        mdesc_off = attrs.getAttributeValue(NAMESPACE, "desc_off");
+
         initView();
+
     }
 
     public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -41,6 +54,8 @@ public class SettingItemView extends RelativeLayout{
         tv_titile = (TextView) findViewById(R.id.tv_title);
         tv_description = (TextView) findViewById(R.id.tv_description);
         cb_status = (CheckBox) findViewById(R.id.cb_status);
+
+        setTitle(mtitle);
     }
 
     public void setTitle(String title) {
@@ -60,5 +75,10 @@ public class SettingItemView extends RelativeLayout{
 
     public void setChecked(boolean checked) {
         cb_status.setChecked(checked);
+        if (checked) {
+            setDesc(mdesc_on);
+        }else {
+            setDesc(mdesc_off);
+        }
     }
 }
