@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.movitech.mobilesafe.activity.Setup1Activity"
+    android:orientation="vertical"
+    >
+    <TextView
+        style="@style/TitleStyle"
+        android:text="1.欢迎使用手机防盗"
+        />
+    <TextView
+        style="@style/ContentStyle"
+        android:text="您的手机防盗卫士"
+        />
+    <TextView
+        style="@style/ContentStyle"
+        android:drawableLeft="@android:drawable/star_big_on"
+        android:text="SIM卡变更报警"
+        android:gravity="center"
+        />
+    <TextView
+        style="@style/ContentStyle"
+        android:text="您的手机防盗卫士"
+        />
+</LinearLayout>
