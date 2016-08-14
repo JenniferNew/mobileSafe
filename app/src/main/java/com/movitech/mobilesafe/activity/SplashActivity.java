@@ -17,6 +17,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,6 +92,8 @@ public class SplashActivity extends AppCompatActivity {
         tv_version = (TextView) findViewById(R.id.tv_version);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
 
+        RelativeLayout rl_root = (RelativeLayout) findViewById(R.id.rl_root);
+
         String versionName = getVersionName();
         tv_version.setText("版本号:" + versionName);
 
@@ -99,6 +103,10 @@ public class SplashActivity extends AppCompatActivity {
         }else {
             mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME, 2000);
         }
+
+        AlphaAnimation anim = new AlphaAnimation(0.3f, 1);
+        anim.setDuration(2000);
+        rl_root.startAnimation(anim);
     }
 
     @Override
