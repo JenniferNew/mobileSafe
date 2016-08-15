@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.movitech.mobilesafe.R;
 
@@ -26,5 +27,11 @@ public class LostFindActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    public void reEnter(View view) {
+//        重新进入设置向导
+        startActivity(new Intent(this, Setup1Activity.class));
+        finish();
     }
 }
