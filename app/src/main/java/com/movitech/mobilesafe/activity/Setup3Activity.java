@@ -2,12 +2,10 @@ package com.movitech.mobilesafe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.movitech.mobilesafe.R;
 
-public class Setup3Activity extends AppCompatActivity {
+public class Setup3Activity extends BaseSetupActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +13,9 @@ public class Setup3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_setup3);
     }
 
-    public void previous(View view) {
-//        上一页
+    @Override
+    public void showPreviousPage() {
+        //        上一页
         startActivity(new Intent(this, Setup2Activity.class));
 
         finish();
@@ -24,8 +23,9 @@ public class Setup3Activity extends AppCompatActivity {
         overridePendingTransition(R.anim.trans_previous_in, R.anim.trans_previous_out);//进入动画和退出动画
     }
 
-    public void next(View view) {
-//        下一页
+    @Override
+    public void showNextPage() {
+        //        下一页
         startActivity(new Intent(this, Setup4Activity.class));
 
         finish();

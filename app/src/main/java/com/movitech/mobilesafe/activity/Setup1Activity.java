@@ -2,12 +2,10 @@ package com.movitech.mobilesafe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.movitech.mobilesafe.R;
 
-public class Setup1Activity extends AppCompatActivity {
+public class Setup1Activity extends BaseSetupActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +13,14 @@ public class Setup1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_setup1);
     }
 
-    public void next(View view) {
-//        下一页
+    @Override
+    public void showPreviousPage() {
+
+    }
+
+    @Override
+    public void showNextPage() {
+        //        下一页
         startActivity(new Intent(this, Setup2Activity.class));
 
         finish();
