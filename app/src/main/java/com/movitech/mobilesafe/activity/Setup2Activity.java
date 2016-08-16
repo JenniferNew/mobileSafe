@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.movitech.mobilesafe.R;
+import com.movitech.mobilesafe.util.ToastUtil;
 import com.movitech.mobilesafe.view.SettingItemView;
 
 public class Setup2Activity extends BaseSetupActivity {
@@ -65,6 +66,13 @@ public class Setup2Activity extends BaseSetupActivity {
     }
 
     public void showNextPage() {
+        String sim = mPref.getString("sim", null);
+
+        if (TextUtils.isEmpty(sim)) {
+            ToastUtil.showToast(this, "必须绑定SIM卡");
+            return;
+        }
+
         //        下一页
         startActivity(new Intent(this, Setup3Activity.class));
 

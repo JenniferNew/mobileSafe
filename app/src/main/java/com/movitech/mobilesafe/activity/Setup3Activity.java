@@ -20,6 +20,9 @@ public class Setup3Activity extends BaseSetupActivity {
         setContentView(R.layout.activity_setup3);
 
         etPhone = (EditText) findViewById(R.id.et_phone);
+
+        String phone = mPref.getString("safe_phone", "");
+        etPhone.setText(phone);
     }
 
     @Override
@@ -35,11 +38,13 @@ public class Setup3Activity extends BaseSetupActivity {
     @Override
     public void showNextPage() {
         String phone = etPhone.getText().toString();
-        if (!TextUtils.isEmpty(phone)) {
+        if (TextUtils.isEmpty(phone.trim())) {
 //            Toast.makeText(this, "安全号码不能为空", Toast.LENGTH_SHORT).show();
-            ToastUtil.showToast(this, phone);
+            ToastUtil.showToast(this, "安全号码不能为空");
             return;
         }
+
+        mPref.edit().putString("safe_phone", phone).commit();//保存安全号码
 
         //        下一页
         startActivity(new Intent(this, Setup4Activity.class));

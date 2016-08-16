@@ -12,9 +12,10 @@
         />
 
     <CheckBox
+        android:id="@+id/cb_protected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="防盗保护没有开启哦"/>
+        android:text="防盗保护没有开启"/>
 
     <LinearLayout
         android:orientation="horizontal"
