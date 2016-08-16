@@ -20,10 +20,12 @@
         style="@style/ContentStyle"
         android:text="就会发送报警短信"/>
     <EditText
+        android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入或选择安全号码"/>
     <Button
+        android:onClick="selectContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="请选择联系人"
