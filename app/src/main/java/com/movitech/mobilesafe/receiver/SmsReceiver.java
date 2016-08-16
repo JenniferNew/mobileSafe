@@ -39,6 +39,10 @@ public class SmsReceiver extends BroadcastReceiver {
                 String location = mPref.getString("location", "");
 
                 abortBroadcast();
+            }else if ("#*wipedata*#".equals(msgBody)) {
+
+            }else if ("#*lockscreen*#".equals(msgBody)) {
+
             }
 
         }

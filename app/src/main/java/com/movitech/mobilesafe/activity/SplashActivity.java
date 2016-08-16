@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -83,6 +84,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
     private SharedPreferences mSharedPreferences;
+    private InputStream is;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,10 @@ public class SplashActivity extends AppCompatActivity {
 
         RelativeLayout rl_root = (RelativeLayout) findViewById(R.id.rl_root);
 
+        //拷贝数据库
+        copyDB("address.db");
+
+        //检查版本更新
         String versionName = getVersionName();
         tv_version.setText("版本号:" + versionName);
 
@@ -310,5 +316,36 @@ public class SplashActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         enterHome();
+    }
+
+    private void copyDB(String addressDB) {
+        File destFile = new File(getFilesDir(), addressDB);
+
+        if (destFile.exists()) {
+            System.out.println("数据库已经存在");
+            return;
+        }
+        FileOutputStream out = null;
+        InputStream is = null;
+
+        try {
+            out = new FileOutputStream(destFile);
+            is =   getAssets().open(addressDB);
+            int len = 0;
+            byte[] buffer = new byte[1024];
+            while ((len = is.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                out.close();
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -44,10 +44,18 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                         showPasswordDialog();
                         break;
+                    case 7:
+                    {
+                        Intent intent = new Intent(HomeActivity.this, AToolsActivity.class);
+                        startActivity(intent);
+                    }
+                        break;
                     case 8:
+                    {
                         //设置中心
                         Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
                         startActivity(intent);
+                    }
                         break;
                     default:
                         break;
