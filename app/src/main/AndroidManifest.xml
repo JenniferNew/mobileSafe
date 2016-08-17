@@ -14,6 +14,9 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"
@@ -83,7 +86,20 @@
         <service
             android:name=".service.AddressService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <!-- <receiver -->
+        <!-- android:name=".receiver.OutCallReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PHONE_STATE" /> -->
+        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL"/> -->
+        <!-- </intent-filter> -->
+
+
+        <!-- </receiver> -->
+        <activity android:name=".activity.DragViewActivity"></activity>
     </application>
 
 </manifest>

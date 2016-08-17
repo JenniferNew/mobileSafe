@@ -30,6 +30,17 @@
         movitech:desc_off="归属地显示已关闭"
         >
     </com.movitech.mobilesafe.view.SettingItemView>
-
+    <com.movitech.mobilesafe.view.SettingClickView
+        android:id="@+id/scv_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </com.movitech.mobilesafe.view.SettingClickView>
+    <com.movitech.mobilesafe.view.SettingClickView
+        android:id="@+id/scv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </com.movitech.mobilesafe.view.SettingClickView>
 
 </LinearLayout>
