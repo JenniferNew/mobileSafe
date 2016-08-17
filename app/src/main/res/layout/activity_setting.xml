@@ -21,5 +21,15 @@
 
     </com.movitech.mobilesafe.view.SettingItemView>
 
+    <com.movitech.mobilesafe.view.SettingItemView
+        android:id="@+id/siv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        movitech:title_value="电话归属地显示设置"
+        movitech:desc_on="归属地显示已开启"
+        movitech:desc_off="归属地显示已关闭"
+        >
+    </com.movitech.mobilesafe.view.SettingItemView>
+
 
 </LinearLayout>
